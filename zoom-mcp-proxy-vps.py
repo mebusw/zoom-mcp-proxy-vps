@@ -66,6 +66,10 @@ def save_code_verifier(verifier):
     with open(CODE_VERIFIER_FILE, "w") as f:
         f.write(verifier)
 
+def clear_token():
+    if os.path.exists(TOKEN_CACHE_FILE):
+        os.remove(TOKEN_CACHE_FILE)
+
 # ═══════════════════════════════════════════════════════
 # OAuth token管理
 # ═══════════════════════════════════════════════════════
@@ -288,7 +292,7 @@ class ZoomMCPProxyHandler(http.server.BaseHTTPRequestHandler):
                 "token_cached": bool(access_token),
                 "mcp_url": ZOOM_MCP_URL,
             }).encode())
-       elif self.path=="/reauthorize":
+        elif self.path=="/reauthorize":
             clear_token()
             verifier,challenge=generate_pkce()
             save_code_verifier(verifier)
