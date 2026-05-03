@@ -288,6 +288,13 @@ class ZoomMCPProxyHandler(http.server.BaseHTTPRequestHandler):
                 "token_cached": bool(access_token),
                 "mcp_url": ZOOM_MCP_URL,
             }).encode())
+       elif self.path=="/reauthorize":
+            clear_token()
+            verifier,challenge=generate_pkce()
+            save_code_verifier(verifier)
+            auth_url=build_auth_url(challenge)
+            self.send_response(200); self.send_header("Content-Type","application/json"); self.end_headers()
+            self.wfile.write(json.dumps({"status":"reauthorize","auth_url":auth_url,"callback_uri":REDIRECT_URI}).encode())
         else:
             self.send_error(404)
 
