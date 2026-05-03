@@ -1,0 +1,13 @@
+[Unit]
+Description=Zoom MCP Proxy
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /root/zoom-mcp-proxy-vps.py
+StandardOutput=file:/tmp/zoom-mcp-stdout.log
+StandardError=file:/tmp/zoom-mcp-stderr.log
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
